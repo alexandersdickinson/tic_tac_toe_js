@@ -5,11 +5,20 @@ describe('Player', function() {
    });
 });
 
-describe('Space', function() {
-    it("returns the player's mark", function() {
-      var testSpace = new Space(1,2);
-      expect(testSpace.x).to.equal(1);
-   });
+describe('markSpace', function(){
+	it("marks a space with the mark of a player", function(){
+		var testPlayer = new Player("O");
+		var testSpace = new Space(0,0);
+		testPlayer.markSpace(testSpace);
+		expect(testSpace.mark).to.equal("O");
+	});
+	
+	it("sets isMarked to true", function(){
+		var testPlayer = new Player("O");
+		var testSpace = new Space(0,0);
+		testPlayer.markSpace(testSpace);
+		expect(testSpace.isMarked).to.equal(true);
+	});
 });
 
 describe('Space', function() {
@@ -17,26 +26,41 @@ describe('Space', function() {
       var testSpace = new Space(1,2);
       expect(testSpace.y).to.equal(2);
    });
-
-  it("lets a player mark a space", function() {
-      var testPlayer = new Player("X")      
-      var testSpace = new Space(1,2);
-      testSpace.markedBy(testPlayer)
-      expect(testSpace.markedBy).to.equal(testPlayer);
+   
+   it("initializes the value isMarked with false", function(){
+	   var testSpace = new Space(0,0);
+	   expect(testSpace.isMarked).to.equal(false);
    });
 });
 
 describe('Board', function() {
-  it("creates 9 spaces when it is initialized", function() {
-	  var testSpaces = [];
+  it("creates an array of three columns each containing three rows to represent grid", function() {
+	  var testCols = [];
 	  var testBoard = new Board();
-	  for (var i = 0; i < 3; i++){
+	  for(var i = 1; i <= 3; i++){
+		  var rows = []
+		  for(var j = 1; j <= 3; j++){
+			  var space = new Space(i,j);
+			  rows.push(space);
+		  }
+		  testCols.push(rows);
+	  }
+	  expect(testBoard.spaces).to.eql(testCols);
+  });
+  
+  it("shows spaces that have not been marked", function(){
+	  var testBoard = new Board();
+	  var testPlayer = new Player("X");
+	  var testFreeSpaces = [];
+	  for(var i = 1; i < 3; i++){
 		  for(var j = 0; j < 3; j++){
-			  var space = new Space(i, j);
-			  testSpaces.push(space);
+			  testFreeSpaces.push(testBoard.spaces[i][j]);
 		  }
 	  }
-	  expect(testBoard.spaces).to.eql(testSpaces);
+	  testPlayer.markSpace(testBoard.spaces[0][0]);
+	  testPlayer.markSpace(testBoard.spaces[0][1]);
+	  testPlayer.markSpace(testBoard.spaces[0][2]);
+	  expect(testBoard.getFreeSpaces()).to.eql(testFreeSpaces);
   });
 });
 
@@ -51,5 +75,28 @@ describe('Game', function(){
 	it("initializes with turn set to 0", function(){
 		var testGame = new Game();
 		expect(testGame.turn).to.equal(0);
+	});
+});
+
+describe("setUpTurn", function(){
+	it("increments the turn", function(){
+		var testGame = new Game();
+		testGame.setUpTurn();
+		expect(testGame.turn).to.equal(1);
+	});
+	
+	it("assigns X as the current player on odd numbered turns", function(){
+		var testGame = new Game();
+		testGame.setUpTurn();
+		testGame.setUpTurn();
+		testGame.setUpTurn();
+		expect(testGame.currentPlayer.mark).to.equal("X");		
+	});
+	
+	it("assigns O as the current player on even numbered turns", function(){
+		var testGame = new Game();
+		testGame.setUpTurn();
+		testGame.setUpTurn();
+		expect(testGame.currentPlayer.mark).to.equal("O");		
 	});
 });
