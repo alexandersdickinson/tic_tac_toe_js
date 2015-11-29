@@ -145,6 +145,15 @@ describe("winner", function(){
 	it("declares a tie", function(){
 		var testGame = new Game();
 		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
+		testGame.players[0].markSpace(testGame.board.spaces[1][0]);
+		testGame.players[1].markSpace(testGame.board.spaces[2][0]);
+		testGame.players[1].markSpace(testGame.board.spaces[0][1]);
+		testGame.players[0].markSpace(testGame.board.spaces[1][1]);
+		testGame.players[0].markSpace(testGame.board.spaces[2][1]);
+		testGame.players[0].markSpace(testGame.board.spaces[0][2]);
+		testGame.players[1].markSpace(testGame.board.spaces[1][2]);
+		testGame.players[1].markSpace(testGame.board.spaces[2][2]);
+		expect(testGame.winner()).to.equal("tie");
 	});
 	
 	it("returns false if three in a row does not occur", function(){

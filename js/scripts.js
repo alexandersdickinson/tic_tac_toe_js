@@ -90,6 +90,9 @@ Game.prototype.winner = function(){
 			return this.players[i];
 		}
 	}
+	if(this.board.getFreeSpaces().length === 0){
+		return "tie";
+	}
 	return false;
 }
 
@@ -178,7 +181,8 @@ $(document).ready(function(){
 				children[child].style.visibility = 'visible';
 				var winner = game.winner();
 				if(winner){
-					$("#winner").text(winner.mark + " wins!");
+					var message = (winner === "tie") ? "Tie game!" : winner.mark + " wins!";
+					$("#winner").text(message);
 					$("#winner").show();
 					isNewGame = true;
 				}
@@ -234,7 +238,8 @@ $(document).ready(function(){
 		$(square).children()[child].style.visibility = 'visible';
 		var winner = game.winner();
 		if(winner){
-			$("#winner").text(winner.mark + " wins!");
+			var message = (winner === "tie") ? "Tie game!" : winner.mark + " wins!";
+			$("#winner").text(message);
 			$("#winner").show();
 			isNewGame = true;
 		}
@@ -256,21 +261,17 @@ $(document).ready(function(){
 		var targetSpace = game.winThreat(opponent);
 		if(targetSpace && !(targetSpace.isMarked)){
 			game.currentPlayer.markSpace(targetSpace);
-			debugger;
 		}
 		else if(!(game.board.spaces[1][1].isMarked)){
 			targetSpace = game.board.spaces[1][1];
 			game.currentPlayer.markSpace(targetSpace);
-			debugger;
 		}
 		else if(game.winThreat(game.currentPlayer) && !(game.winThreat(game.currentPlayer).isMarked)){
 			targetSpace = game.winThreat(game.currentPlayer);
 			game.currentPlayer.markSpace(targetSpace);
-			debugger;
 		}
 		else{
 			targetSpace = markRandomSpace();
-			debugger;
 		}
 		return targetSpace;
 	}
