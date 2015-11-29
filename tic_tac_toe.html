@@ -4,8 +4,8 @@
 		<title>Tic Tac Toe</title>
 		<link rel='stylesheet' type='text/css' href='css/bootstrap.css'>
 		<link rel='stylesheet' type='text/css' href='css/stylesheet.css'>
-		<script href='js/jquery-1.11.3.js'></script>
-		<script href='js/scripts.js'></script>
+		<script src='js/jquery-1.11.3.js'></script>
+		<script src='js/scripts.js'></script>
 	</head>
 	
 	<body>
@@ -17,45 +17,22 @@
 		
 		<div class='container-fluid'>
 			<div id='board'>
-				<div id='column1'>
-					<div class='square'>
-						<div class='o' id='c1r1o'></div>
-						<div class='x' id='c1r1x'>
-							<div class='line1'></div>
-							<div class='line2'></div>
-						</div>
-					</div>
-					<div class='square'>
+				<div class='column1'>
+					<div class='square row1'>
 						<div class='o'></div>
 						<div class='x'>
 							<div class='line1'></div>
 							<div class='line2'></div>
 						</div>
 					</div>
-					<div class='square'>
+					<div class='square row2'>
 						<div class='o'></div>
 						<div class='x'>
 							<div class='line1'></div>
 							<div class='line2'></div>
 						</div>
 					</div>
-				</div>
-				<div id='column2'>
-					<div class='square'>
-						<div class='o'></div>
-						<div class='x'>
-							<div class='line1'></div>
-							<div class='line2'></div>
-						</div>
-					</div>
-					<div class='square'>
-						<div class='o'></div>
-						<div class='x'>
-							<div class='line1'></div>
-							<div class='line2'></div>
-						</div>
-					</div>
-					<div class='square'>
+					<div class='square row3'>
 						<div class='o'></div>
 						<div class='x'>
 							<div class='line1'></div>
@@ -63,22 +40,45 @@
 						</div>
 					</div>
 				</div>
-				<div id='column3'>
-					<div class='square'>
+				<div class='column2'>
+					<div class='square row1'>
 						<div class='o'></div>
 						<div class='x'>
 							<div class='line1'></div>
 							<div class='line2'></div>
 						</div>
 					</div>
-					<div class='square'>
+					<div class='square row2'>
 						<div class='o'></div>
 						<div class='x'>
 							<div class='line1'></div>
 							<div class='line2'></div>
 						</div>
 					</div>
-					<div class='square'>
+					<div class='square row3'>
+						<div class='o'></div>
+						<div class='x'>
+							<div class='line1'></div>
+							<div class='line2'></div>
+						</div>
+					</div>
+				</div>
+				<div class='column3'>
+					<div class='square row1'>
+						<div class='o'></div>
+						<div class='x'>
+							<div class='line1'></div>
+							<div class='line2'></div>
+						</div>
+					</div>
+					<div class='square row2'>
+						<div class='o'></div>
+						<div class='x'>
+							<div class='line1'></div>
+							<div class='line2'></div>
+						</div>
+					</div>
+					<div class='square row3'>
 						<div class='o'></div>
 						<div class='x'>
 							<div class='line1'></div>
@@ -88,8 +88,21 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class='container-fluid' id='after-board'>
-			<button class='btn btn-primary' id='test-button'>Test Button</button>
+			<div class='btn-group' role='group'>
+				<button class='btn btn-primary' id='new-game'>New Game</button>
+				<button class='btn btn-default' id='against-computer'>Play Against the Computer</button>
+			</div>
+			<h2>Computer Options:</h2>
+			<form>
+				<label class='radio-inline'><input type='radio' name='difficulty' value='easy' checked='checked'>Easy</label>
+				<label class='radio-inline'><input type='radio' name='difficulty' value='hard'>Hard</label>
+			</form>
+				<label class='radio-inline'><input type='radio' name='which-player' value='x' checked='checked'>Computer X</label>
+				<label class='radio-inline'><input type='radio' name='which-player' value='o'>Computer O</label>
+			<form>
+			<h2><span id='winner'></span><h2>
 		</div>
 	</body>
 </html>

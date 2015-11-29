@@ -100,3 +100,80 @@ describe("setUpTurn", function(){
 		expect(testGame.currentPlayer.mark).to.equal("O");		
 	});
 });
+
+describe("winner", function(){
+	it("declares the winner if three spaces along the x axis are marked by the same player", function(){
+		var testGame = new Game();
+		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
+		testGame.players[0].markSpace(testGame.board.spaces[1][0]);
+		testGame.players[0].markSpace(testGame.board.spaces[2][0]);
+		expect(testGame.winner()).to.equal(testGame.players[0]);
+	});
+	
+	it("declares the winner if three spaces along the y axis are marked by the same player", function(){
+		var testGame = new Game();
+		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
+		testGame.players[0].markSpace(testGame.board.spaces[0][1]);
+		testGame.players[0].markSpace(testGame.board.spaces[0][2]);
+		expect(testGame.winner()).to.equal(testGame.players[0]);
+	});
+	
+	it("declares the winner if three spaces along the diagonal axis where x and y are equal are marked by the same player", function(){
+		var testGame = new Game();
+		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
+		testGame.players[0].markSpace(testGame.board.spaces[1][1]);
+		testGame.players[0].markSpace(testGame.board.spaces[2][2]);
+		expect(testGame.winner()).to.equal(testGame.players[0]);
+	});
+	
+	it("declares the winner if three spaces along the diagonal axis where x and y are not equal are marked by the same player", function(){
+		var testGame = new Game();
+		testGame.players[0].markSpace(testGame.board.spaces[0][2]);
+		testGame.players[0].markSpace(testGame.board.spaces[1][1]);
+		testGame.players[0].markSpace(testGame.board.spaces[2][0]);
+		expect(testGame.winner()).to.equal(testGame.players[0]);
+	});
+	
+	it("declares O as the winner", function(){
+		var testGame = new Game();
+		testGame.players[1].markSpace(testGame.board.spaces[0][2]);
+		testGame.players[1].markSpace(testGame.board.spaces[1][1]);
+		testGame.players[1].markSpace(testGame.board.spaces[2][0]);
+		expect(testGame.winner()).to.equal(testGame.players[1]);
+	});
+	
+	it("returns false if three in a row does not occur", function(){
+		var testGame = new Game();
+		testGame.players[0].markSpace(testGame.board.spaces[1][1]);
+		expect(testGame.winner()).to.equal(false);
+	});
+});
+
+describe("winThreat", function(){
+	it("returns space needed for the opponent to win the game", function(){
+		var testGame = new Game();
+		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
+		testGame.players[0].markSpace(testGame.board.spaces[0][1]);
+		expect(testGame.winThreat(testGame.players[0])).to.equal(testGame.board.spaces[0][2]);
+	})
+	
+	it("returns space needed for the opponent to win with a diagonal", function(){
+		var testGame = new Game();
+		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
+		testGame.players[0].markSpace(testGame.board.spaces[1][1]);
+		expect(testGame.winThreat(testGame.players[0])).to.equal(testGame.board.spaces[2][2]);
+	});
+	
+	it("returns middle space when two outside spaces are marked", function(){
+		var testGame = new Game();
+		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
+		testGame.players[0].markSpace(testGame.board.spaces[0][2]);
+		expect(testGame.winThreat(testGame.players[0])).to.equal(testGame.board.spaces[0][1]);
+	});
+	
+	it("returns false if there is no threat", function(){
+		var testGame = new Game();
+		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
+		expect(testGame.winThreat(testGame.players[0])).to.eql(false);
+	});
+});

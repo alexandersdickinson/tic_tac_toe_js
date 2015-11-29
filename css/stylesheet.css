@@ -19,13 +19,10 @@
 	border-width:8px;
 	border-style:solid;
 	color:black;
-}
-
-.x{
 	visibility:hidden;
 }
 
-#c1r1o{
+.x{
 	visibility:hidden;
 }
 
@@ -53,14 +50,14 @@
 	color: black;
 }
 
-#column1{
+.column1{
 	position: absolute;
 	border-width:2px;
 	border-color:black;
 	border-style:solid;
 }
 
-#column2{
+.column2{
 	position: absolute;
 	left: 115px;
 	border-width:2px;
@@ -68,7 +65,7 @@
 	border-style:solid;
 }
 
-#column3{
+.column3{
 	position: absolute;
 	left: 215px;
 	border-width:2px;
@@ -79,4 +76,8 @@
 #after-board{
 	top: 550px;
 	position: absolute;
+}
+
+#winner{
+	display: none;
 }
