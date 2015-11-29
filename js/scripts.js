@@ -95,36 +95,29 @@ Game.prototype.winner = function(){
 
 Game.prototype.winThreat = function(player){
 	var spaces = this.board.spaces;
-	for(var across = 0; across < 3; across++){
-		if(spaces[across][1].isMarked && spaces[across][1].mark === player.mark){//across x axis
-			if(spaces[across][0].isMarked && spaces[across][0].mark === player.mark){
-				return spaces[across][2];
+	var space;
+	for(var group = 0; group < 3; group++){
+		var threeRowX = [];
+		var threeRowY = [];
+		var rowsXAndY = [threeRowX, threeRowY];
+		for(var across = 0; across < 3; across++){
+			rowsXAndY[0].push(spaces[across][group]);
+			rowsXAndY[1].push(spaces[group][across]);
+		}
+		for(var i = 0; i < 2; i++){//rowsXandY
+			var row = rowsXAndY[i];
+			var blankSpaces = [];
+			for(var j = 0; j < 3; j++){//threeRows
+				space = row[j];
+				debugger;
+				if(!(space.isMarked && space.mark === player.mark)){
+					blankSpaces.push(rowsXAndY[i].slice(j, j+1)[0]);
+					debugger;
+				}
 			}
-			else if(spaces[across][2].isMarked && spaces[across][2].mark === player.mark){
-				return spaces[across][0];
+			if(blankSpaces.length === 1){
+				return blankSpaces[0];
 			}
-		}
-		if(spaces[1][across].isMarked && spaces[1][across].mark === player.mark){//across y axis
-			if(spaces[0][across].isMarked && spaces[0][across].mark === player.mark){
-				return spaces[2][across];
-			}
-			else if(spaces[2][across].isMarked && spaces[2][across].mark === player.mark){
-				return spaces[0][across];
-			}
-		}
-	}
-	if(spaces[1][1].isMarked && spaces[1][1].mark === player.mark){
-		if(spaces[0][0].isMarked && spaces[0][0].mark === player.mark){
-			return spaces[2][2];
-		}
-		else if(spaces[2][2].isMarked && spaces[2][2].mark === player.mark){
-			return spaces[0][0];
-		}
-		else if(spaces[0][2].isMarked && spaces[0][2].mark === player.mark){
-			return spaces[2][0];
-		}
-		else if(spaces[2][0].isMarked && spaces[2][0].mark === player.mark){
-			return spaces[0][2];
 		}
 	}
 	return false;
@@ -240,21 +233,17 @@ $(document).ready(function(){
 		var opponent = game.currentPlayer.mark === 'O' ? game.players[0] : game.players[1];
 		var targetSpace = game.winThreat(opponent);
 		if(targetSpace && !(targetSpace.isMarked)){
-			debugger;
 			game.currentPlayer.markSpace(targetSpace);
 		}
 		else if(!(game.board.spaces[1][1].isMarked)){
-			debugger;
 			targetSpace = game.board.spaces[1][1];
 			game.currentPlayer.markSpace(targetSpace);
 		}
 		else if(game.winThreat(game.currentPlayer) && !(game.winThreat(game.currentPlayer).isMarked)){
-			debugger;
 			targetSpace = game.winThreat(game.currentPlayer);
 			game.currentPlayer.markSpace(targetSpace);
 		}
 		else{
-			debugger;
 			targetSpace = markRandomSpace();
 		}
 		return targetSpace;
