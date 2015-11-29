@@ -142,6 +142,11 @@ describe("winner", function(){
 		expect(testGame.winner()).to.equal(testGame.players[1]);
 	});
 	
+	it("declares a tie", function(){
+		var testGame = new Game();
+		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
+	});
+	
 	it("returns false if three in a row does not occur", function(){
 		var testGame = new Game();
 		testGame.players[0].markSpace(testGame.board.spaces[1][1]);
@@ -152,23 +157,23 @@ describe("winner", function(){
 describe("winThreat", function(){
 	it("returns space needed for the opponent to win the game", function(){
 		var testGame = new Game();
-		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
-		testGame.players[0].markSpace(testGame.board.spaces[0][1]);
-		expect(testGame.winThreat(testGame.players[0])).to.equal(testGame.board.spaces[0][2]);
+		testGame.players[0].markSpace(testGame.board.spaces[1][1]);
+		testGame.players[0].markSpace(testGame.board.spaces[1][2]);
+		expect(testGame.winThreat(testGame.players[0])).to.equal(testGame.board.spaces[1][0]);
 	})
 	
 	it("returns space needed for the opponent to win with a diagonal", function(){
 		var testGame = new Game();
-		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
 		testGame.players[0].markSpace(testGame.board.spaces[1][1]);
-		expect(testGame.winThreat(testGame.players[0])).to.equal(testGame.board.spaces[2][2]);
+		testGame.players[0].markSpace(testGame.board.spaces[0][2]);
+		expect(testGame.winThreat(testGame.players[0])).to.equal(testGame.board.spaces[2][0]);
 	});
 	
 	it("returns middle space when two outside spaces are marked", function(){
 		var testGame = new Game();
 		testGame.players[0].markSpace(testGame.board.spaces[0][0]);
-		testGame.players[0].markSpace(testGame.board.spaces[0][2]);
-		expect(testGame.winThreat(testGame.players[0])).to.equal(testGame.board.spaces[0][1]);
+		testGame.players[0].markSpace(testGame.board.spaces[2][0]);
+		expect(testGame.winThreat(testGame.players[0])).to.equal(testGame.board.spaces[1][0]);
 	});
 	
 	it("returns false if there is no threat", function(){

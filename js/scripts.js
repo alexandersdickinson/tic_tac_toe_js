@@ -99,7 +99,7 @@ Game.prototype.winThreat = function(player){
 	for(var group = 0; group < 3; group++){
 		var threeRowX = [];
 		var threeRowY = [];
-		var rowsXAndY = [threeRowX, threeRowY];
+		var rowsXAndY = [threeRowX, threeRowY, diagSpaces1, diagSpaces2];
 		for(var across = 0; across < 3; across++){
 			rowsXAndY[0].push(spaces[across][group]);
 			rowsXAndY[1].push(spaces[group][across]);
@@ -109,15 +109,37 @@ Game.prototype.winThreat = function(player){
 			var blankSpaces = [];
 			for(var j = 0; j < 3; j++){//threeRows
 				space = row[j];
-				debugger;
-				if(!(space.isMarked && space.mark === player.mark)){
-					blankSpaces.push(rowsXAndY[i].slice(j, j+1)[0]);
-					debugger;
+				var markedCount = 0;
+				if(space.isMarked && space.mark === player.mark){
+					markedCount++;
+				}
+				else{
+					blankSpaces.push(rowsXAndY[i].slice(j, j + 1)[0]);
 				}
 			}
-			if(blankSpaces.length === 1){
+			if(blankSpaces.length < 2){
 				return blankSpaces[0];
 			}
+		}
+	}
+	var diagSpaces1 = [spaces[0][0], spaces[1][1], spaces[2][2]];
+	var diagSpaces2 = [spaces[0][2], spaces[1][1], spaces[2][0]];
+	var diags = [diagSpaces1, diagSpaces2];
+	for(var i = 0; i < 2; i++){//rowsXandY
+		var row = diags[i];
+		var blankSpaces = [];
+		for(var j = 0; j < 3; j++){//threeRows
+			space = row[j];
+			var markedCount = 0;
+			if(space.isMarked && space.mark === player.mark){
+				markedCount++;
+			}
+			else{
+				blankSpaces.push(diags[i].slice(j, j + 1)[0]);
+			}
+		}
+		if(blankSpaces.length < 2){
+			return blankSpaces[0];
 		}
 	}
 	return false;
@@ -234,17 +256,21 @@ $(document).ready(function(){
 		var targetSpace = game.winThreat(opponent);
 		if(targetSpace && !(targetSpace.isMarked)){
 			game.currentPlayer.markSpace(targetSpace);
+			debugger;
 		}
 		else if(!(game.board.spaces[1][1].isMarked)){
 			targetSpace = game.board.spaces[1][1];
 			game.currentPlayer.markSpace(targetSpace);
+			debugger;
 		}
 		else if(game.winThreat(game.currentPlayer) && !(game.winThreat(game.currentPlayer).isMarked)){
 			targetSpace = game.winThreat(game.currentPlayer);
 			game.currentPlayer.markSpace(targetSpace);
+			debugger;
 		}
 		else{
 			targetSpace = markRandomSpace();
+			debugger;
 		}
 		return targetSpace;
 	}
